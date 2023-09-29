@@ -4,15 +4,15 @@ import com.messenger.Messenger.domain.Admin;
 import com.messenger.Messenger.domain.Chat;
 import com.messenger.Messenger.domain.TextMessage;
 import com.messenger.Messenger.domain.User;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 @SpringBootApplication
 public class MessengerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MessengerApplication.class, args);
-		Messenger messenger = new Messenger();
+		AnnotationConfigApplicationContext context=new AnnotationConfigApplicationContext(MessengerApplication.class);
+		Messenger messenger = context.getBean(Messenger.class);
 		Admin admin = messenger.doNewAdmin("Roma");
 		User user1 = messenger.doNewUser("Vlad");
 		User user2 = messenger.doNewUser("Dima");
