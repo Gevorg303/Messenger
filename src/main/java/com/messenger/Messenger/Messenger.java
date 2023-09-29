@@ -25,7 +25,7 @@ public class Messenger {
     public ChatList getChatList() {
         return chatList;
     }
-    @Autowired
+
     public void setChatList(ChatList chatList) {
         this.chatList = chatList;
     }
@@ -33,7 +33,7 @@ public class Messenger {
     public UserList getUserList() {
         return userList;
     }
-    @Autowired
+
     public void setUserList(UserList userList) {
         this.userList = userList;
     }
@@ -46,7 +46,6 @@ public class Messenger {
         return chatService;
     }
 
-    @Autowired
     public void setChatService(ChatServiceImpl chatService) {
         this.chatService = chatService;
     }
@@ -54,11 +53,11 @@ public class Messenger {
     public AdminServiceImpl getAdminService() {
         return adminService;
     }
-    @Autowired
+
     public void setUserService(UserServiceImpl userService) {
         this.userService = userService;
     }
-    @Autowired
+
     public void setAdminService(AdminServiceImpl adminService) {
         this.adminService = adminService;
     }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Chat {
+
     private String chatName;/*Название чата*/
     private User creator;/*Создатель чата*/
     private int maxUser;/*Максимальное количество пользователей*/
