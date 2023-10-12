@@ -1,6 +1,9 @@
 package com.messenger.Messenger;
 
 import com.messenger.Messenger.domain.*;
+import com.messenger.Messenger.repository.AdminList;
+import com.messenger.Messenger.repository.ChatList;
+import com.messenger.Messenger.repository.UserList;
 import com.messenger.Messenger.service.ChatServiceImpl;
 import com.messenger.Messenger.service.impl.AdminServiceInterface;
 import com.messenger.Messenger.service.impl.ChatServiceInterface;
@@ -21,6 +24,8 @@ public class Messenger {
     private UserList userList;
     @Autowired
     private ChatList chatList;
+    @Autowired
+    private AdminList adminList;
 
     public ChatList getChatList() {
         return chatList;
@@ -62,8 +67,8 @@ public class Messenger {
         return adminServiceInterface;
     }
 
-    public User doNewUser(String userName) {
-        return getUserServiceInterface().createUser(getUserList(), userName);
+    public String doNewUser(String userName) {
+        return getUserServiceInterface().createUser(userName);
     }
 
     public Chat doNewChat(User user1, String nameChat, boolean isPrivate, String password, int maxUser) {
@@ -95,18 +100,30 @@ public class Messenger {
     }
 
     public Admin doNewAdmin(String nameAdmin) {
-        return getAdminServiceInterface().crateAdmin(getUserList(), nameAdmin);
+        return getAdminServiceInterface().crateAdmin(nameAdmin);
     }
 
-    public void removeUser(UserList userList, User user2) {
-        getUserServiceInterface().deleteUserAndChats((ChatServiceImpl) getChatServiceInterface(), getChatList(), userList, user2);
+    public void removeUser(User user2) {
+        getUserServiceInterface().deleteUserAndChats((ChatServiceImpl) getChatServiceInterface(), getChatList(), user2);
     }
 
     public void removeAdmin(Admin admin) {
-        getAdminServiceInterface().deleteAdmin(getUserList(), admin);
+        getAdminServiceInterface().deleteAdmin(admin);
     }
 
     public List<Chat> printAllChat() {
         return getChatList().getChats();
+    }
+
+    public void findUser(String userName) {
+        getUserServiceInterface().findUser(userName);
+    }
+
+    public AdminList getAdminList() {
+        return adminList;
+    }
+
+    public void setAdminList(AdminList adminList) {
+        this.adminList = adminList;
     }
 }

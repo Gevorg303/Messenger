@@ -4,36 +4,63 @@ import com.messenger.Messenger.service.impl.UserServiceInterface;
 import com.messenger.Messenger.domain.Admin;
 import com.messenger.Messenger.domain.Chat;
 import com.messenger.Messenger.domain.User;
-import com.messenger.Messenger.domain.UserList;
-import com.messenger.Messenger.domain.ChatList;
-import org.springframework.stereotype.Component;
+import com.messenger.Messenger.repository.UserList;
+import com.messenger.Messenger.repository.ChatList;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UserServiceImpl implements UserServiceInterface {
+    @Autowired
+    private UserList userList;
+    @Autowired
+    private ChatList chatList;
+    @Override
+    public List<User> getUserList(){
+        return userList.getUsers();
+    }
 
     /*Создать нового пользователя*/
     @Override
-    public User createUser(UserList userList, String username) {
+    public String createUser(String username) {
         User user = new User(username);
         userList.getUsers().add(user);
-        System.out.println("Пользователь " + username + " создан.");
-        return user;
+        return "Пользователь " + user.getNameUser() + " создан.";
     }
 
     /*Удалить пользователя из мессенджера*/
     @Override
-    public void deleteUser(ChatServiceImpl chatService, ChatList chatList, UserList userList, User user) {
-        userList.getUsers().remove(user);
+    public String deleteUser(User user) {
+        List<User> usersToRemove = new ArrayList<>();
+
+        // Поиск пользователей для удаления
+        for (User user1 : userList.getUsers()) {
+            if (user1.getNameUser().equals(user.getNameUser())) {
+                usersToRemove.add(user);
+            }
+        }
+
+        // Удаление пользователей из списка
+        userList.getUsers().removeAll(usersToRemove);
+
+        // Удаление пользователя из чатов
         for (Chat chat : chatList.getChats()) {
-            if (!chat.getUserList().contains(user)) {
+
+            if (chat.getUserList().contains(user)) {
                 chat.removeUser(user);
             }
         }
-        System.out.println("Пользователь " + user.getNameUser() + " удален.");
+
+        if (!usersToRemove.isEmpty()) {
+            return "Пользователь "+user.getNameUser()+" удален.";
+        } else {
+            return "Пользователь "+user.getNameUser()+" не найден.";
+        }
     }
 
     /*Получить чаты пользователя*/
@@ -44,14 +71,14 @@ public class UserServiceImpl implements UserServiceInterface {
 
     @Override
     public Chat createChat(ChatServiceImpl chatService, ChatList chatList, User user, String name, boolean isPrivate, String password, int maxUsers) {
-        Chat chat = chatService.createChat(chatList, user, name, isPrivate, password, maxUsers);
+        Chat chat = chatService.createChat(user, name, isPrivate, password, maxUsers);
         chatList.getChats().add(chat);
         return chat;
     }
 
     @Override
     public void deleteChat(ChatServiceImpl chatService, ChatList chatList, User user, Chat chat) {
-        chatService.deleteChat(chatList, user, chat);
+        chatService.deleteChat(user, chat);
     }
 
     @Override
@@ -61,11 +88,21 @@ public class UserServiceImpl implements UserServiceInterface {
 
     /*Удаляем чаты пользователя*/
     @Override
-    public void deleteUserAndChats(ChatServiceImpl chatService, ChatList chatList, UserList userList, User user) {
-        deleteUser(chatService, chatList, userList, user);
+    public void deleteUserAndChats(ChatServiceImpl chatService, ChatList chatList, User user) {
+        deleteUser(user);
         List<Chat> userChatsCopy = new ArrayList<>(user.getChatMessagesUser());
         for (Chat chat : userChatsCopy) {
-            chatService.deleteChat(chatList, user, chat);
+            chatService.deleteChat(user, chat);
         }
+    }
+
+    @Override
+    public User findUser(String userName) {
+        for(User user:userList.getUsers()){
+            if(Objects.equals(userName, user.getNameUser())){
+                return user;
+            }
+        }
+        return null;
     }
 }

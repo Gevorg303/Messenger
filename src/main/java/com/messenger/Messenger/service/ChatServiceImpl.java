@@ -2,18 +2,20 @@ package com.messenger.Messenger.service;
 
 import com.messenger.Messenger.service.impl.ChatServiceInterface;
 import com.messenger.Messenger.domain.*;
-import com.messenger.Messenger.domain.ChatList;
-import org.springframework.stereotype.Component;
+import com.messenger.Messenger.repository.ChatList;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
 public class ChatServiceImpl implements ChatServiceInterface {
-
+    @Autowired
+    private ChatList chatList;
     /*Создать новый чат*/
     @Override
-    public Chat createChat(ChatList chatList, User creator, String name, boolean isPrivate,
+    public Chat createChat(User creator, String name, boolean isPrivate,
                            String password, int maxUsers) {
         Chat chat;
         if (isPrivate) {
@@ -27,19 +29,21 @@ public class ChatServiceImpl implements ChatServiceInterface {
         creator.addChat(chat);
         return chat;
     }
-
     /*Удалить чат*/
     @Override
-    public void deleteChat(ChatList chatList,User user, Chat chat) {
-        if (user.equals(chat.getCreator())) {
-            chatList.getChats().remove(chat);
-            for (User u : chat.getUserList()) {
-                removeUserFromChat(chatList, u, chat);
+    public List<Chat> deleteChat(User user, Chat chat) {
+        if (user.getNameUser().equals(chat.getCreator().getNameUser())) {
+            if (chatList.getChats().contains(chat)) {
+                chatList.getChats().remove(chat);
+                for (User u : chat.getUserList()) {
+                    removeUserFromChat(u, chat);
+                }
+                return chatList.getChats();
+            } else {
+                return chatList.getChats();//если всё грустно вернем как было
             }
-            System.out.println("Чат " + chat.getChatName() + " удален пользователем " + user.getNameUser());
-        } else {
-            System.out.println(user.getNameUser() + " не может удалить чат " + chat.getChatName() + " так как он не создатель и не администратор.");
         }
+      return null;
     }
 
     /*Добавить пользователя в чат*/
@@ -58,7 +62,7 @@ public class ChatServiceImpl implements ChatServiceInterface {
 
     /*Удалить пользователя из чата*/
     @Override
-    public void removeUserFromChat(ChatList chatList, User user, Chat chat) {
+    public void removeUserFromChat(User user, Chat chat) {
         chat.removeUser(user);
         for (Chat c : chatList.getChats()) {
             if (c != chat && c.getUserList().contains(user)) {
@@ -78,4 +82,24 @@ public class ChatServiceImpl implements ChatServiceInterface {
         }
     }
 
+    public List<Chat> getChatList() {
+        return chatList.getChats();
+    }
+    @Override
+    public Chat findChat(String chatName){
+        for(Chat chat: chatList.getChats()){
+            if(Objects.equals(chat.getChatName(), chatName))
+                return chat;
+        }
+        return null;
+    }
+    @Override
+    public Message newMessage(String message, boolean isText){
+        Message message1;
+        if(isText){
+            return message1=new TextMessage(message);
+        }else {
+            return message1=new ImageMessage(message);
+        }
+    }
 }

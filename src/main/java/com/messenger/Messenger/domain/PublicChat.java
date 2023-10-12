@@ -1,8 +1,10 @@
 package com.messenger.Messenger.domain;
 
+import java.util.List;
+
 public class PublicChat extends Chat {
-    public PublicChat(User creator, String chatName, int numberUser, String password) {
-        super(creator, chatName, numberUser, null);
+    public PublicChat(User creator, String chatName, int maxUser, String password) {
+        super(creator, chatName, maxUser, password);
     }
 
     @Override
