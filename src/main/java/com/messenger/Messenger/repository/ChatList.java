@@ -13,8 +13,11 @@ import java.util.Arrays;
 import java.util.List;
 @Repository
 public class ChatList {
-    private List<Chat> chats= Arrays.asList(new PublicChat(new User("Oly"), "Kostroma", 5, null),
-            new PrivateChat(new User("Lili"), "1 klass",3,"12345"));
+    private List<Chat> chats;
+
+    public ChatList(List<Chat> chats) {
+        this.chats = chats;
+    }
 
     public List<Chat> getChats() {
         return chats;

@@ -10,7 +10,11 @@ import java.util.Arrays;
 import java.util.List;
 @Repository
 public class UserList {
-    private List<User> users= Arrays.asList(new User("Vlad"), new User("Roma"), new User("Oleg"), new User("Oly"), new User("Lili"));
+    private List<User> users;
+
+    public UserList(List<User> users) {
+        this.users = users;
+    }
 
     public List<User> getUsers() {
         return users;

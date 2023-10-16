@@ -8,7 +8,11 @@ import java.util.Arrays;
 import java.util.List;
 @Repository
 public class AdminList {
-    private List<Admin> adminList= Arrays.asList(new Admin("German"), new Admin("Vova"));
+    private List<Admin> adminList;
+
+    public AdminList(List<Admin> adminList) {
+        this.adminList = adminList;
+    }
 
     public List<Admin> getAdminList() {
         return adminList;
