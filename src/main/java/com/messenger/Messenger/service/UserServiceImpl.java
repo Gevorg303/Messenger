@@ -6,7 +6,7 @@ import com.messenger.Messenger.domain.Chat;
 import com.messenger.Messenger.domain.User;
 import com.messenger.Messenger.repository.UserList;
 import com.messenger.Messenger.repository.ChatList;
-import org.jetbrains.annotations.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +23,10 @@ public class UserServiceImpl implements UserServiceInterface {
     @Override
     public List<User> getUserList(){
         return userList.getUsers();
+    }
+    @Override
+    public ChatList getChatList() {
+        return chatList;
     }
 
     /*Создать нового пользователя*/
@@ -49,7 +53,7 @@ public class UserServiceImpl implements UserServiceInterface {
         userList.getUsers().removeAll(usersToRemove);
 
         // Удаление пользователя из чатов
-        for (Chat chat : chatList.getChats()) {
+        for (Chat chat : getChatList().getChats()) {
 
             if (chat.getUserList().contains(user)) {
                 chat.removeUser(user);

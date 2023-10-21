@@ -20,5 +20,5 @@ public interface UserServiceInterface {
     void deleteUserAndChats(ChatServiceImpl chatService, ChatList chatList, User user);
     User findUser(String userName);
     List<User> getUserList();
-
+    ChatList getChatList();
 }

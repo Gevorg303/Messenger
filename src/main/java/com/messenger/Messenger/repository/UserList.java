@@ -2,6 +2,7 @@ package com.messenger.Messenger.repository;
 
 import com.messenger.Messenger.domain.Admin;
 import com.messenger.Messenger.domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
@@ -12,6 +13,7 @@ import java.util.List;
 public class UserList {
     private List<User> users;
 
+    @Autowired
     public UserList(List<User> users) {
         this.users = users;
     }

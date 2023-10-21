@@ -13,9 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/chat")
-@Api(description = "Работа чата")
 public class ChatController {
     @Autowired
     private ChatServiceInterface chatServiceInterface;
@@ -23,31 +22,27 @@ public class ChatController {
     private UserServiceInterface userServiceInterface;
 
     @GetMapping(value = "/list")
-    @ApiOperation("Список чатов")
-    public @ResponseBody List<Chat> getChatList(){
-        return  chatServiceInterface.getChatList();
+    public @ResponseBody String getChatList(){
+        return  chatServiceInterface.getChatList()+"reg";
     }
 
     @DeleteMapping(value = "/deleteChat/{user}/{chat}")
-    @ApiOperation("Удалить чат")
-    public @ResponseBody void deleteChat(@PathVariable("user") String userName,
+    public @ResponseBody String deleteChat(@PathVariable("user") String userName,
                                          @PathVariable("chat") String chatName){
         Chat chat1=chatServiceInterface.findChat(chatName);
         User user1=userServiceInterface.findUser(userName);
-        System.out.println(chatServiceInterface.deleteChat(user1, chat1)+"sadsadasd");
+        return chatServiceInterface.deleteChat(user1, chat1)+"Список чатов: "+chatServiceInterface.getChatList();
     }
     @PostMapping(value = "/createChat/{userName}/{nameChat}/{isPrivate}/{password}/{maxUser}")
-    @ApiOperation("Создать новый чат")
-    public  @ResponseBody Chat createChat(@PathVariable("userName")String userName,
+    public  @ResponseBody String createChat(@PathVariable("userName")String userName,
                                           @PathVariable("nameChat") String nameChat,
                                           @PathVariable("isPrivate") boolean isPrivate,
                                           @PathVariable("password") String password,
                                           @PathVariable("maxUser") int maxUser){
         User user1 = userServiceInterface.findUser(userName);
-        return chatServiceInterface.createChat(user1, nameChat, isPrivate, password, maxUser);
+        return chatServiceInterface.createChat(user1, nameChat, isPrivate, password, maxUser)+"Чат успешно создан";
     }
     @PostMapping(value = "/addUserToChat/{userName}/{chatName}/{password}")
-    @ApiOperation("Добавление пользователя в чат")
     public @ResponseBody void addUserToChat(@PathVariable("userName") String userName,
                               @PathVariable("chatName") String chatName,
                               @PathVariable("password") String password){
@@ -57,7 +52,6 @@ public class ChatController {
         chatServiceInterface.addUserToChat(user1,chat1,password);
     }
     @DeleteMapping(value = "/removeUserFromChat/{userName}/{chatName}")
-    @ApiOperation("Удаление чатов пользователя")
     public @ResponseBody void removeUserFromChat(@PathVariable("userName") String userName,
                                                  @PathVariable("chatName") String chatName){
         User user=userServiceInterface.findUser(userName);
@@ -65,7 +59,6 @@ public class ChatController {
         chatServiceInterface.removeUserFromChat(user, chat);
     }
     @PostMapping("/writeMessage/{userName}/{chatName}/{isText}/{message}")
-    @ApiOperation("Отправка сообщения пользователем в чате")
     public @ResponseBody void writeMessage(@PathVariable("userName") String userName,
                                            @PathVariable("chatName") String chatName,
                                            @PathVariable("isText") boolean isText,

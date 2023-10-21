@@ -81,7 +81,7 @@ public class ChatServiceImpl implements ChatServiceInterface {
             System.out.println(user.getNameUser() + " не может отправить сообщение в чат " + chat.getChatName() + ", так как он не является его участником");
         }
     }
-
+    @Override
     public List<Chat> getChatList() {
         return chatList.getChats();
     }

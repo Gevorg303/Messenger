@@ -16,4 +16,5 @@ public interface ChatServiceInterface {
     List<Chat> getChatList();
     Chat findChat(String chatName);
     Message newMessage(String message, boolean isText);
+
 }

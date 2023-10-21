@@ -16,5 +16,6 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.basePackage("com.messenger.Messenger.controllers"))
                 .paths(PathSelectors.any())
                 .build();
+
     }
 }

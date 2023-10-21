@@ -4,6 +4,7 @@ import com.messenger.Messenger.domain.Chat;
 import com.messenger.Messenger.domain.PrivateChat;
 import com.messenger.Messenger.domain.PublicChat;
 import com.messenger.Messenger.domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
@@ -14,7 +15,7 @@ import java.util.List;
 @Repository
 public class ChatList {
     private List<Chat> chats;
-
+    @Autowired
     public ChatList(List<Chat> chats) {
         this.chats = chats;
     }
