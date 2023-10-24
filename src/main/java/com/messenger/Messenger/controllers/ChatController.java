@@ -7,6 +7,8 @@ import com.messenger.Messenger.service.impl.ChatServiceInterface;
 import com.messenger.Messenger.service.impl.UserServiceInterface;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/chat")
+@Tag(name = "Работа чата", description = "Операции, связанные с чатами")
 public class ChatController {
     @Autowired
     private ChatServiceInterface chatServiceInterface;
@@ -22,11 +25,13 @@ public class ChatController {
     private UserServiceInterface userServiceInterface;
 
     @GetMapping(value = "/list")
+    @Operation(tags = "Список чатов", description = "Получить список всех чатов")
     public @ResponseBody String getChatList(){
         return  chatServiceInterface.getChatList()+"reg";
     }
 
     @DeleteMapping(value = "/deleteChat/{user}/{chat}")
+    @Operation(tags = "Удалить чат", description = "Удалить чат по имени пользователя и названию чата")
     public @ResponseBody String deleteChat(@PathVariable("user") String userName,
                                          @PathVariable("chat") String chatName){
         Chat chat1=chatServiceInterface.findChat(chatName);
@@ -34,6 +39,7 @@ public class ChatController {
         return chatServiceInterface.deleteChat(user1, chat1)+"Список чатов: "+chatServiceInterface.getChatList();
     }
     @PostMapping(value = "/createChat/{userName}/{nameChat}/{isPrivate}/{password}/{maxUser}")
+    @Operation(tags = "Создать новый чат", description = "Создать новый чат с указанными параметрами")
     public  @ResponseBody String createChat(@PathVariable("userName")String userName,
                                           @PathVariable("nameChat") String nameChat,
                                           @PathVariable("isPrivate") boolean isPrivate,
@@ -43,6 +49,7 @@ public class ChatController {
         return chatServiceInterface.createChat(user1, nameChat, isPrivate, password, maxUser)+"Чат успешно создан";
     }
     @PostMapping(value = "/addUserToChat/{userName}/{chatName}/{password}")
+    @Operation(tags = "Добавление пользователя в чат", description = "Добавить пользователя в чат с указанным паролем")
     public @ResponseBody void addUserToChat(@PathVariable("userName") String userName,
                               @PathVariable("chatName") String chatName,
                               @PathVariable("password") String password){
@@ -52,6 +59,7 @@ public class ChatController {
         chatServiceInterface.addUserToChat(user1,chat1,password);
     }
     @DeleteMapping(value = "/removeUserFromChat/{userName}/{chatName}")
+    @Operation(tags = "Удаление чатов пользователя", description = "Удалить пользователя из чата")
     public @ResponseBody void removeUserFromChat(@PathVariable("userName") String userName,
                                                  @PathVariable("chatName") String chatName){
         User user=userServiceInterface.findUser(userName);
@@ -59,6 +67,7 @@ public class ChatController {
         chatServiceInterface.removeUserFromChat(user, chat);
     }
     @PostMapping("/writeMessage/{userName}/{chatName}/{isText}/{message}")
+    @Operation(tags = "Отправка сообщения пользователем в чате", description = "Отправить сообщение в чат от имени пользователя")
     public @ResponseBody void writeMessage(@PathVariable("userName") String userName,
                                            @PathVariable("chatName") String chatName,
                                            @PathVariable("isText") boolean isText,
