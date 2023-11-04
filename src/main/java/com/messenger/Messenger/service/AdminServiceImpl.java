@@ -1,12 +1,9 @@
 package com.messenger.Messenger.service;
 
-import com.messenger.Messenger.domain.User;
-import com.messenger.Messenger.repository.AdminList;
-import com.messenger.Messenger.service.impl.AdminServiceInterface;
 import com.messenger.Messenger.domain.Admin;
 import com.messenger.Messenger.domain.Chat;
-import com.messenger.Messenger.repository.UserList;
-import com.messenger.Messenger.repository.ChatList;
+import com.messenger.Messenger.repository.impl.AdminRepositoryInterface;
+import com.messenger.Messenger.service.impl.AdminServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +13,11 @@ import java.util.Objects;
 
 @Service
 public class AdminServiceImpl implements AdminServiceInterface {
-
     @Autowired
-    private AdminList adminList;
-
+    private AdminRepositoryInterface adminRepository;
     /*Удалить любой чат*/
     @Override
-    public void deleteAnyChat(ChatServiceImpl chatService, ChatList chatList, Admin admin, Chat chat) {
+    public void deleteAnyChat(ChatServiceImpl chatService, Admin admin, Chat chat) {
         chatService.deleteChat(admin, chat);
         System.out.println("Админ " + admin.getNameUser() + " удалил чат " + chat.getChatName());
     }
@@ -42,7 +37,7 @@ public class AdminServiceImpl implements AdminServiceInterface {
     @Override
     public Admin crateAdmin(String nameAdmin){
         Admin admin1=new Admin(nameAdmin);
-        adminList.getAdminList().add(admin1);
+        //adminDataBase.add(admin1);
         System.out.println("Админ " + admin1.getNameUser() + " создан.");
         return admin1;
     }
@@ -52,14 +47,14 @@ public class AdminServiceImpl implements AdminServiceInterface {
     public String deleteAdmin(Admin admin) {
         List<Admin> adminsToRemove = new ArrayList<>();
 
-        for (Admin admin1 : adminList.getAdminList()) {
+        for (Admin admin1 : adminRepository.getAllAdmins()) {
             if (Objects.equals(admin1.getNameUser(), admin.getNameUser())) {
                 adminsToRemove.add(admin1);
             }
         }
 
         if (!adminsToRemove.isEmpty()) {
-            adminList.getAdminList().removeAll(adminsToRemove);
+            adminRepository.getAllAdmins().removeAll(adminsToRemove);
             return "Админ " + admin.getNameUser() + " удален.";
         } else {
             return "Админ " + admin.getNameUser() + " не найден.";
@@ -68,11 +63,11 @@ public class AdminServiceImpl implements AdminServiceInterface {
 
     @Override
     public List<Admin> getAdminList(){
-        return adminList.getAdminList();
+        return adminRepository.getAllAdmins();
     }
     @Override
     public Admin findAdmin(String adminName) {
-        for(Admin admin: adminList.getAdminList()){
+        for(Admin admin: adminRepository.getAllAdmins()){
             if(Objects.equals(adminName, admin.getNameUser())){
                 return admin;
             }

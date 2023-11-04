@@ -1,20 +1,13 @@
 package com.messenger.Messenger;
 
-import com.messenger.Messenger.domain.Admin;
-import com.messenger.Messenger.domain.Chat;
-import com.messenger.Messenger.domain.TextMessage;
-import com.messenger.Messenger.domain.User;
 import org.springframework.boot.Banner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 @SpringBootApplication
 public class MessengerApplication {
 
 	public static void main(String[] args) {
-//		AnnotationConfigApplicationContext context=new AnnotationConfigApplicationContext(MessengerApplication.class);
-//		Messenger messenger = context.getBean(Messenger.class);
 //		Admin admin = messenger.doNewAdmin("Roma");
 //		User user1 = messenger.doNewUser("Vlad");
 //		User user2 = messenger.doNewUser("Dima");
@@ -35,6 +28,23 @@ public class MessengerApplication {
 //		System.out.println(messenger.printListChat(user1)); //вывести список чатов пользователя user1
 //		System.out.println(messenger.printListChat(user2)); //вывести список чатов пользователя user2
 //		messenger.findUser("Vlad");
+		//AnnotationConfigApplicationContext context=new AnnotationConfigApplicationContext(MessengerApplication.class);
+//		Messenger messenger = context.getBean(Messenger.class);
+//		messenger.GGG(new User("vvvv"),"rtrt", false, null, 5);
+
+//		SessionFactory sessionFactory = new Configuration()
+//				.buildSessionFactory();
+//		Session session=null;
+//
+//		session=sessionFactory.getCurrentSession();
+//		session.beginTransaction();
+//
+//
+//		System.out.println();
+//		session.getTransaction().commit();
+//
+//		sessionFactory.close();
+
 		new SpringApplicationBuilder(MessengerApplication.class)
 				.bannerMode(Banner.Mode.OFF) // <- Отключаем Spring баннер
 				.run(args);

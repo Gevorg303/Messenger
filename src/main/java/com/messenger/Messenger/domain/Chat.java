@@ -1,46 +1,62 @@
 package com.messenger.Messenger.domain;
 
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
-
+@Entity
+@Table(name="Chat")
 public abstract class Chat {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+    @Column(name = "name_chat")
     private String chatName;/*Название чата*/
+    @OneToOne(mappedBy = "creator")
     private User creator;/*Создатель чата*/
+    @Column(name = "max_user")
     private int maxUser;/*Максимальное количество пользователей*/
+    @OneToMany(mappedBy = "chat_user")
     private List<User> userList;/*Список пользователей в чате*/
+    @OneToMany(mappedBy = "messagesHistory")
     private List<Message> messagesHistory;/*История сообщений в чате*/
+    @Column(name = "password")
     private String password;/*Пароль чата*/
+
 
     public Chat(User creator, String chatName, int maxUser, String password) {
         this.chatName = chatName;
         this.maxUser = maxUser;
         this.userList = new ArrayList<>();
-        this.messagesHistory=new ArrayList<>();
+        //this.messagesHistory=new ArrayList<>();
         this.password=password;
         this.creator=creator;
     }
 
-    /*Добавить пользователя в чат*/
-    public void addUser(User user) {
-        if (!getUserList().contains(user)) {
-            if (getUserList().size() < getMaxUser()) {
-                getUserList().add(user);
-                //user.addChat(this);
-                System.out.println(user.getNameUser() + " присоединился к чату " + getChatName());
-            } else {
-                System.out.println("Чат " + getChatName() + " полон, нельзя добавить больше пользователей.");
-            }
-        }
+    public Chat() {
     }
+     /*Добавить пользователя в чат*/
+//    public void addUser(User user) {
+//        if (!getUserList().contains(user)) {
+//            if (getUserList().size() < getMaxUser()) {
+//                getUserList().add(user);
+//                user.addChat(this);
+//                System.out.println(user.getNameUser() + " присоединился к чату " + getChatName());
+//            } else {
+//                System.out.println("Чат " + getChatName() + " полон, нельзя добавить больше пользователей.");
+//            }
+//        }
+//    }
 
     /*Удалить пользователя из чата*/
-    public void removeUser(User user) {
-        if (getUserList().contains(user)) {
-            getUserList().remove(user);
-            user.removeChat(this);
-            System.out.println(user.getNameUser() + " покинул чат '" + getChatName() + "'.");
-        }
-    }
+//    public void removeUser(User user) {
+//        if (getUserList().contains(user)) {
+//            getUserList().remove(user);
+//            user.removeChat(this);
+//            System.out.println(user.getNameUser() + " покинул чат '" + getChatName() + "'.");
+//        }
+//    }
 
     /*Проверить чат на приватность*/
     public abstract boolean isPrivate();
@@ -101,5 +117,13 @@ public abstract class Chat {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

@@ -5,8 +5,8 @@ import com.messenger.Messenger.domain.Chat;
 import com.messenger.Messenger.domain.User;
 import com.messenger.Messenger.service.impl.AdminServiceInterface;
 import com.messenger.Messenger.service.impl.ChatServiceInterface;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +28,7 @@ public class AdminController {
         return adminServiceInterface.getAdminList();
     }
 
-    @DeleteMapping (value = "/deleteAdmin/{adminName}")
+    @DeleteMapping(value = "/deleteAdmin/{adminName}")
     @Operation(tags = "Удалить админа", description = "Удалить администратора по имени админа")
     public @ResponseBody String deleteAdmin(@PathVariable ("adminName") String adminName){
         Admin admin = adminServiceInterface.findAdmin(adminName);

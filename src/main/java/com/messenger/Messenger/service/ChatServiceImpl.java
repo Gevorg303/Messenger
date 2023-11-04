@@ -1,8 +1,8 @@
 package com.messenger.Messenger.service;
 
-import com.messenger.Messenger.service.impl.ChatServiceInterface;
 import com.messenger.Messenger.domain.*;
-import com.messenger.Messenger.repository.ChatList;
+import com.messenger.Messenger.repository.impl.ChatRepositoryInterface;
+import com.messenger.Messenger.service.impl.ChatServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,64 +12,52 @@ import java.util.Objects;
 @Service
 public class ChatServiceImpl implements ChatServiceInterface {
     @Autowired
-    private ChatList chatList;
+    private ChatRepositoryInterface chatRepository;
     /*Создать новый чат*/
     @Override
     public Chat createChat(User creator, String name, boolean isPrivate,
                            String password, int maxUsers) {
-        Chat chat;
-        if (isPrivate) {
-            chat = new PrivateChat(creator, name, maxUsers, password);
-        } else {
-            chat = new PublicChat(creator, name, maxUsers, null);
-        }
+        Chat chat = chatRepository.createNewChat(creator, name, isPrivate, password, maxUsers);
         System.out.println("Создан чат " + name + " пользователем "+creator.getNameUser());
-        chat.addUser(creator);
-        chatList.getChats().add(chat);
-        creator.addChat(chat);
+        //chat.addUser(creator);
+        //creator.addChat(chat);
         return chat;
     }
     /*Удалить чат*/
     @Override
-    public List<Chat> deleteChat(User user, Chat chat) {
+    public void deleteChat(User user, Chat chat) {
         if (user.getNameUser().equals(chat.getCreator().getNameUser())) {
-            if (chatList.getChats().contains(chat)) {
-                chatList.getChats().remove(chat);
+            chatRepository.delete(chat);
+            System.out.println("Чат успещно удален");
                 for (User u : chat.getUserList()) {
-                    removeUserFromChat(u, chat);
+                    //removeUserFromChat(u, chat);
+                    System.out.println("Пользователи из чата удалены");
                 }
-                return chatList.getChats();
-            } else {
-                return chatList.getChats();//если всё грустно вернем как было
-            }
         }
-      return null;
+        else {
+            System.out.println("Данный пользователь не может удалить этот чат");
+        }
     }
 
     /*Добавить пользователя в чат*/
-    @Override
-    public void addUserToChat(User user, Chat chat, String password) {
-        if(!(chat.isPrivate())) {
-            chat.addUser(user);
-        }else {
-            if(Objects.equals(chat.getPassword(), password)){
-                chat.addUser(user);
-            }else {
-                System.out.println(user.getNameUser()+" ввел неверный пароль для входа в чат "+chat.getChatName());
-            }
-        }
-    }
+//    @Override
+//    public void addUserToChat(User user, Chat chat, String password) {
+//        if(!(chat.isPrivate())) {
+//            chat.addUser(user);
+//        }else {
+//            if(Objects.equals(chat.getPassword(), password)){
+//                chat.addUser(user);
+//            }else {
+//                System.out.println(user.getNameUser()+" ввел неверный пароль для входа в чат "+chat.getChatName());
+//            }
+//        }
+//    }
 
     /*Удалить пользователя из чата*/
-    @Override
-    public void removeUserFromChat(User user, Chat chat) {
-        chat.removeUser(user);
-        for (Chat c : chatList.getChats()) {
-            if (c != chat && c.getUserList().contains(user)) {
-                c.removeUser(user);
-            }
-        }
-    }
+//    @Override
+//    public void removeUserFromChat(User user, Chat chat) {
+//        chatRepositoryInterface.removeUserFromChat(chat, user);
+//    }
 
     /*Написать сообщение*/
     @Override
@@ -83,11 +71,11 @@ public class ChatServiceImpl implements ChatServiceInterface {
     }
     @Override
     public List<Chat> getChatList() {
-        return chatList.getChats();
+        return chatRepository.findAll();
     }
     @Override
     public Chat findChat(String chatName){
-        for(Chat chat: chatList.getChats()){
+        for(Chat chat: chatRepository.findAll()){
             if(Objects.equals(chat.getChatName(), chatName))
                 return chat;
         }

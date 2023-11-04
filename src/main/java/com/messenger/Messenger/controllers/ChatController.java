@@ -5,12 +5,10 @@ import com.messenger.Messenger.domain.Message;
 import com.messenger.Messenger.domain.User;
 import com.messenger.Messenger.service.impl.ChatServiceInterface;
 import com.messenger.Messenger.service.impl.UserServiceInterface;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/chat")
@@ -33,7 +31,7 @@ public class ChatController {
                                          @PathVariable("chat") String chatName){
         Chat chat1=chatServiceInterface.findChat(chatName);
         User user1=userServiceInterface.findUser(userName);
-        return chatServiceInterface.deleteChat(user1, chat1)+"Список чатов: "+chatServiceInterface.getChatList();
+        return "";//chatServiceInterface.deleteChat(user1, chat1)+"Список чатов: "+chatServiceInterface.getChatList();
     }
     @PostMapping(value = "/createChat/{userName}/{nameChat}/{isPrivate}/{password}/{maxUser}")
     @Operation(tags = "Создать новый чат", description = "Создать новый чат с указанными параметрами")
@@ -53,7 +51,7 @@ public class ChatController {
 
         Chat chat1=chatServiceInterface.findChat(chatName);
         User user1=userServiceInterface.findUser(userName);
-        chatServiceInterface.addUserToChat(user1,chat1,password);
+        //chatServiceInterface.addUserToChat(user1,chat1,password);
     }
     @DeleteMapping(value = "/removeUserFromChat/{userName}/{chatName}")
     @Operation(tags = "Удаление чатов пользователя", description = "Удалить пользователя из чата")
@@ -61,7 +59,7 @@ public class ChatController {
                                                  @PathVariable("chatName") String chatName){
         User user=userServiceInterface.findUser(userName);
         Chat chat=chatServiceInterface.findChat(chatName);
-        chatServiceInterface.removeUserFromChat(user, chat);
+        //chatServiceInterface.removeUserFromChat(user, chat);
     }
     @PostMapping("/writeMessage/{userName}/{chatName}/{isText}/{message}")
     @Operation(tags = "Отправка сообщения пользователем в чате", description = "Отправить сообщение в чат от имени пользователя")

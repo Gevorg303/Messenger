@@ -1,39 +1,54 @@
 package com.messenger.Messenger.domain;
 
-import com.messenger.Messenger.domain.impl.UserInterface;
-
-import java.util.ArrayList;
+import javax.persistence.*;
 import java.util.List;
 
-public class User implements UserInterface {
+@Entity
+@Table(name = "users")
+public class User {
+    @Id
+    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "name")
     private String nameUser;
-    private List<Chat> chatMessagesUser;/*Список чатов пользователя*/
+
+    @OneToMany
+    @JoinColumn(name = "chat_user")
+    private List<Chat> chat;/*Список чатов пользователя*/
 
     public User(String nameUser) {
         this.nameUser = nameUser;
-        this.chatMessagesUser = new ArrayList<>();
+        //this.chat = new ArrayList<>();
+    }
+    public User() {
+
     }
 
     /*Чат добавить в список чатов пользователя*/
-    @Override
-    public void addChat(Chat chat) {
-        getChatMessagesUser().add(chat);
-    }
-
-    /*Чат удалить из списка чатов пользователя*/
-    @Override
-    public void removeChat(Chat chat) {
-        getChatMessagesUser().remove(chat);
-    }
+//    @Override
+//    public void addChat(Chat chat) {
+//        getChat().add(chat);
+//    }
+//
+//    /*Чат удалить из списка чатов пользователя*/
+//    @Override
+//    public void removeChat(Chat chat) {
+//        getChat().remove(chat);
+//    }
 
     @Override
     public String toString() {
         return "Имя пользователя: "+getNameUser();
     }
 
+    public Long getId() {
+        return id;
+    }
 
-    public List<Chat> getChatMessagesUser() {
-        return chatMessagesUser;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNameUser() {
@@ -44,7 +59,11 @@ public class User implements UserInterface {
         this.nameUser = nameUser;
     }
 
-    public void setChatMessagesUser(List<Chat> chatMessagesUser) {
-        this.chatMessagesUser = chatMessagesUser;
+    public List<Chat> getChat() {
+        return chat;
+    }
+
+    public void setChat(List<Chat> chat) {
+        this.chat = chat;
     }
 }
