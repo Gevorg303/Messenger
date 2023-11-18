@@ -1,11 +1,14 @@
 package com.messenger.Messenger.domain;
 
+import com.messenger.Messenger.domain.impl.UserInterface;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "User")
+public class User implements UserInterface {
     @Id
     @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,28 +18,29 @@ public class User {
     private String nameUser;
 
     @OneToMany
-    @JoinColumn(name = "chat_user")
+    @JoinColumn(name = "id_chat_list")
     private List<Chat> chat;/*Список чатов пользователя*/
 
     public User(String nameUser) {
         this.nameUser = nameUser;
-        //this.chat = new ArrayList<>();
+        this.chat = new ArrayList<>();
     }
+
     public User() {
 
     }
 
     /*Чат добавить в список чатов пользователя*/
-//    @Override
-//    public void addChat(Chat chat) {
-//        getChat().add(chat);
-//    }
-//
-//    /*Чат удалить из списка чатов пользователя*/
-//    @Override
-//    public void removeChat(Chat chat) {
-//        getChat().remove(chat);
-//    }
+    @Override
+    public void addChat(Chat chat) {
+        getChat().add(chat);
+    }
+
+    /*Чат удалить из списка чатов пользователя*/
+    @Override
+    public void removeChat(Chat chat) {
+        getChat().remove(chat);
+    }
 
     @Override
     public String toString() {

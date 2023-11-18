@@ -1,8 +1,8 @@
 package com.messenger.Messenger;
 
-import org.springframework.boot.Banner;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.core.SpringVersion;
 
 @SpringBootApplication
 public class MessengerApplication {
@@ -45,10 +45,16 @@ public class MessengerApplication {
 //
 //		sessionFactory.close();
 
-		new SpringApplicationBuilder(MessengerApplication.class)
-				.bannerMode(Banner.Mode.OFF) // <- Отключаем Spring баннер
-				.run(args);
+//		new SpringApplicationBuilder(MessengerApplication.class)
+//				.bannerMode(Banner.Mode.OFF) // <- Отключаем Spring баннер
+//				.run(args);
+//
+//		System.out.println("App running ...");
 
-		System.out.println("App running ...");
+
+		SpringApplication springApplication=new SpringApplication(MessengerApplication.class);
+		System.out.println("Spring Core Version:- " + SpringVersion.getVersion());
+		springApplication.run(args);
+
 	}
 }

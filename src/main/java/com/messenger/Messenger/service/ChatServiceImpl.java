@@ -20,7 +20,7 @@ public class ChatServiceImpl implements ChatServiceInterface {
         Chat chat = chatRepository.createNewChat(creator, name, isPrivate, password, maxUsers);
         System.out.println("Создан чат " + name + " пользователем "+creator.getNameUser());
         //chat.addUser(creator);
-        //creator.addChat(chat);
+        creator.addChat(chat);
         return chat;
     }
     /*Удалить чат*/

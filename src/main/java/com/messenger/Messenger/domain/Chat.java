@@ -1,11 +1,13 @@
 package com.messenger.Messenger.domain;
 
-import jakarta.persistence.*;
-
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+
 @Entity
-@Table(name="Chat")
+@Table(name = "Chat")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "chat_type", discriminatorType = DiscriminatorType.STRING)
 public abstract class Chat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +31,7 @@ public abstract class Chat {
         this.chatName = chatName;
         this.maxUser = maxUser;
         this.userList = new ArrayList<>();
-        //this.messagesHistory=new ArrayList<>();
+        this.messagesHistory=new ArrayList<>();
         this.password=password;
         this.creator=creator;
     }
