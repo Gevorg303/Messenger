@@ -7,10 +7,12 @@ import com.messenger.Messenger.service.impl.ChatServiceInterface;
 import com.messenger.Messenger.service.impl.UserServiceInterface;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@Transactional
 @RequestMapping("/chat")
 @Tag(name = "Работа чата", description = "Операции, связанные с чатами")
 public class ChatController {

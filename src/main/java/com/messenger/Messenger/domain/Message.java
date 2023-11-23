@@ -1,10 +1,10 @@
 package com.messenger.Messenger.domain;
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Message")
-@Inheritance(strategy = javax.persistence.InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "message_type", discriminatorType = javax.persistence.DiscriminatorType.STRING)
+@Inheritance(strategy = jakarta.persistence.InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "message_type", discriminatorType = jakarta.persistence.DiscriminatorType.STRING)
 public abstract class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

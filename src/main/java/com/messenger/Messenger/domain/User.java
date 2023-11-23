@@ -1,17 +1,19 @@
 package com.messenger.Messenger.domain;
 
 import com.messenger.Messenger.domain.impl.UserInterface;
+import lombok.Getter;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 @Entity
 @Table(name = "User")
 public class User implements UserInterface {
     @Id
-    @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     private Long id;
 
     @Column(name = "name")
@@ -47,24 +49,12 @@ public class User implements UserInterface {
         return "Имя пользователя: "+getNameUser();
     }
 
-    public Long getId() {
-        return id;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
 
-    public String getNameUser() {
-        return nameUser;
-    }
-
     public void setNameUser(String nameUser) {
         this.nameUser = nameUser;
-    }
-
-    public List<Chat> getChat() {
-        return chat;
     }
 
     public void setChat(List<Chat> chat) {

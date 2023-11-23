@@ -37,7 +37,7 @@ public class AdminServiceImpl implements AdminServiceInterface {
     @Override
     public Admin crateAdmin(String nameAdmin){
         Admin admin1=new Admin(nameAdmin);
-        //adminDataBase.add(admin1);
+        adminRepository.save(admin1);
         System.out.println("Админ " + admin1.getNameUser() + " создан.");
         return admin1;
     }

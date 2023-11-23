@@ -2,9 +2,10 @@ package com.messenger.Messenger;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.core.SpringVersion;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @SpringBootApplication
+@EntityScan( basePackages = {"com.messenger.Messenger.domain.User"} )
 public class MessengerApplication {
 
 	public static void main(String[] args) {
@@ -52,9 +53,10 @@ public class MessengerApplication {
 //		System.out.println("App running ...");
 
 
-		SpringApplication springApplication=new SpringApplication(MessengerApplication.class);
-		System.out.println("Spring Core Version:- " + SpringVersion.getVersion());
-		springApplication.run(args);
+//		SpringApplication springApplication=new SpringApplication(MessengerApplication.class);
+//		System.out.println("Spring Core Version:- " + SpringVersion.getVersion());
+//		springApplication.run(args);
 
+		SpringApplication.run(MessengerApplication.class, args);
 	}
 }

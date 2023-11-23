@@ -15,7 +15,12 @@ public class UserRepositoryImpl implements UserRepositoryInterface {
 
     @Override
     public User save(User user) {
-        entityManager.persist(user);
+
+        if (user.getId() == null) {
+            entityManager.persist(user);
+        } else {
+            user = entityManager.merge(user);
+        }
         return user;
     }
 

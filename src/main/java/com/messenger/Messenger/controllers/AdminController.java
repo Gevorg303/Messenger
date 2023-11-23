@@ -7,13 +7,14 @@ import com.messenger.Messenger.service.impl.AdminServiceInterface;
 import com.messenger.Messenger.service.impl.ChatServiceInterface;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
+@Transactional
 @RequestMapping("/admin")
 @Tag(name = "Контроллер администраторов", description = "Контроллер для управления операциями, связанными с администраторами")
 public class AdminController {
