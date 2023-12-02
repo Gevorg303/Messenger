@@ -9,7 +9,7 @@ import java.util.List;
 
 @Getter
 @Entity
-@Table(name = "User")
+@Table(name = "users")
 public class User implements UserInterface {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,9 +19,13 @@ public class User implements UserInterface {
     @Column(name = "name")
     private String nameUser;
 
-    @OneToMany
-    @JoinColumn(name = "id_chat_list")
+    @OneToMany(mappedBy = "creator")
+    private List<Chat> createdChats;
+
+    @ManyToMany(mappedBy = "userList")
     private List<Chat> chat;/*Список чатов пользователя*/
+
+
 
     public User(String nameUser) {
         this.nameUser = nameUser;

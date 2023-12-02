@@ -1,8 +1,10 @@
 package com.messenger.Messenger.domain;
 import jakarta.persistence.*;
+import lombok.Getter;
 
+@Getter
 @Entity
-@Table(name = "Message")
+@Table(name = "message")
 @Inheritance(strategy = jakarta.persistence.InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "message_type", discriminatorType = jakarta.persistence.DiscriminatorType.STRING)
 public abstract class Message {
@@ -12,6 +14,9 @@ public abstract class Message {
     private Long id;
     @Column(name = "message")
     private String message;
+    @ManyToOne
+    @JoinColumn(name = "chat_id")
+    private Chat chat;
 
     public Message(String message) {
         this.message = message;
@@ -22,9 +27,6 @@ public abstract class Message {
     }
 
     public abstract String getMessageType();
-    public String getMessage() {
-        return message;
-    }
 
     public void setMessage(String message) {
         this.message = message;
@@ -39,7 +41,7 @@ public abstract class Message {
         this.id = id;
     }
 
-    public Long getId() {
-        return id;
+    public void setChat(Chat chat) {
+        this.chat = chat;
     }
 }

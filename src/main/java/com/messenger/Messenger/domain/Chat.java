@@ -1,11 +1,14 @@
 package com.messenger.Messenger.domain;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 @Entity
-@Table(name = "Chat")
+@Table(name = "chat")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "chat_type", discriminatorType = DiscriminatorType.STRING)
 public abstract class Chat {
@@ -15,13 +18,18 @@ public abstract class Chat {
     private Long id;
     @Column(name = "name_chat")
     private String chatName;/*Название чата*/
-    @OneToOne(mappedBy = "creator")
+    @ManyToOne
     private User creator;/*Создатель чата*/
     @Column(name = "max_user")
     private int maxUser;/*Максимальное количество пользователей*/
-    @OneToMany(mappedBy = "chat_user")
+    @ManyToMany
+    @JoinTable(
+            name = "user_chat",
+            joinColumns = @JoinColumn(name = "chat_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
     private List<User> userList;/*Список пользователей в чате*/
-    @OneToMany(mappedBy = "messagesHistory")
+    @OneToMany(mappedBy = "chat")
     private List<Message> messagesHistory;/*История сообщений в чате*/
     @Column(name = "password")
     private String password;/*Пароль чата*/
@@ -73,28 +81,8 @@ public abstract class Chat {
     }
 
 
-    public User getCreator() {
-        return creator;
-    }
-
     public void setCreator(User creator) {
         this.creator = creator;
-    }
-
-    public List<Message> getMessagesHistory() {
-        return messagesHistory;
-    }
-
-    public List<User> getUserList() {
-        return userList;
-    }
-
-    public String getChatName() {
-        return chatName;
-    }
-
-    public int getMaxUser() {
-        return maxUser;
     }
 
     public void setMessagesHistory(List<Message> messagesHistory) {
@@ -113,10 +101,6 @@ public abstract class Chat {
         this.maxUser = maxUser;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public void setPassword(String password) {
         this.password = password;
     }
@@ -125,7 +109,4 @@ public abstract class Chat {
         this.id = id;
     }
 
-    public Long getId() {
-        return id;
-    }
 }

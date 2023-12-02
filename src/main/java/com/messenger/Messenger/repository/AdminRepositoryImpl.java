@@ -10,18 +10,23 @@ import java.util.List;
 
 @Repository
 public class AdminRepositoryImpl implements AdminRepositoryInterface {
+
     @PersistenceContext
     private EntityManager entityManager;
 
     @Override
     public Admin save(Admin admin) {
-        entityManager.persist(admin);
+        if (admin.getId() == null) {
+            entityManager.persist(admin);
+        } else {
+            admin = entityManager.merge(admin);
+        }
         return admin;
     }
 
     @Override
     public void delete(Admin admin) {
-        entityManager.remove(admin);
+        entityManager.remove(entityManager.contains(admin) ? admin : entityManager.merge(admin));
     }
 
     @Override

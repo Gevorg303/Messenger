@@ -15,6 +15,7 @@ import java.util.Objects;
 public class AdminServiceImpl implements AdminServiceInterface {
     @Autowired
     private AdminRepositoryInterface adminRepository;
+
     /*Удалить любой чат*/
     @Override
     public void deleteAnyChat(ChatServiceImpl chatService, Admin admin, Chat chat) {
@@ -74,4 +75,8 @@ public class AdminServiceImpl implements AdminServiceInterface {
         }
         return null;
     }
+
+
+
+
 }
