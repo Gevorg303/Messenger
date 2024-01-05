@@ -4,13 +4,16 @@ import com.messenger.Messenger.domain.impl.UserInterface;
 import lombok.Getter;
 
 import jakarta.persistence.*;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Entity
+@Setter
 @Table(name = "users")
-public class User implements UserInterface {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
@@ -36,32 +39,15 @@ public class User implements UserInterface {
 
     }
 
-    /*Чат добавить в список чатов пользователя*/
-    @Override
-    public void addChat(Chat chat) {
-        getChat().add(chat);
-    }
-
-    /*Чат удалить из списка чатов пользователя*/
-    @Override
-    public void removeChat(Chat chat) {
-        getChat().remove(chat);
+    public void addChatToUser(Chat chat) {
+        if (!this.chat.contains(chat)) {
+            this.chat.add(chat);
+            chat.getUserList().add(this);
+        }
     }
 
     @Override
     public String toString() {
         return "Имя пользователя: "+getNameUser();
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setNameUser(String nameUser) {
-        this.nameUser = nameUser;
-    }
-
-    public void setChat(List<Chat> chat) {
-        this.chat = chat;
     }
 }

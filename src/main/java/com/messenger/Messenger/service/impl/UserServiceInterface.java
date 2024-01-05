@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface UserServiceInterface {
     String createUser(String username);
-    String deleteUser(User user);
+    void deleteUser(User user);
     List<Chat> getUserChats(User user);
     Chat createChat(ChatServiceImpl chatService, User user, String name, boolean isPrivate, String password, int maxUsers);
     void deleteChat(ChatServiceImpl chatService, User user, Chat chat);

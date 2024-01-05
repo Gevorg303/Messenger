@@ -16,17 +16,13 @@ public class AdminRepositoryImpl implements AdminRepositoryInterface {
 
     @Override
     public Admin save(Admin admin) {
-        if (admin.getId() == null) {
-            entityManager.persist(admin);
-        } else {
-            admin = entityManager.merge(admin);
-        }
+        entityManager.persist(admin);
         return admin;
     }
 
     @Override
     public void delete(Admin admin) {
-        entityManager.remove(entityManager.contains(admin) ? admin : entityManager.merge(admin));
+        entityManager.remove(admin);
     }
 
     @Override

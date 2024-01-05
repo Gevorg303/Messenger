@@ -11,6 +11,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @Transactional
 @RequestMapping("/chat")
@@ -23,17 +25,17 @@ public class ChatController {
 
     @GetMapping(value = "/list")
     @Operation(tags = "Список чатов", description = "Получить список всех чатов")
-    public @ResponseBody String getChatList(){
-        return  chatServiceInterface.getChatList()+"reg";
+    public @ResponseBody List<Chat> getChatList(){
+        return  chatServiceInterface.getChatList();
     }
 
     @DeleteMapping(value = "/deleteChat/{user}/{chat}")
     @Operation(tags = "Удалить чат", description = "Удалить чат по имени пользователя и названию чата")
-    public @ResponseBody String deleteChat(@PathVariable("user") String userName,
+    public void deleteChat(@PathVariable("user") String userName,
                                          @PathVariable("chat") String chatName){
         Chat chat1=chatServiceInterface.findChat(chatName);
         User user1=userServiceInterface.findUser(userName);
-        return "";//chatServiceInterface.deleteChat(user1, chat1)+"Список чатов: "+chatServiceInterface.getChatList();
+        chatServiceInterface.deleteChat(user1, chat1);
     }
     @PostMapping(value = "/createChat/{userName}/{nameChat}/{isPrivate}/{password}/{maxUser}")
     @Operation(tags = "Создать новый чат", description = "Создать новый чат с указанными параметрами")
@@ -53,7 +55,7 @@ public class ChatController {
 
         Chat chat1=chatServiceInterface.findChat(chatName);
         User user1=userServiceInterface.findUser(userName);
-        //chatServiceInterface.addUserToChat(user1,chat1,password);
+        chatServiceInterface.addUserToChat(user1,chat1);
     }
     @DeleteMapping(value = "/removeUserFromChat/{userName}/{chatName}")
     @Operation(tags = "Удаление чатов пользователя", description = "Удалить пользователя из чата")

@@ -2,6 +2,7 @@ package com.messenger.Messenger.service;
 
 import com.messenger.Messenger.domain.Admin;
 import com.messenger.Messenger.domain.Chat;
+import com.messenger.Messenger.domain.User;
 import com.messenger.Messenger.repository.impl.AdminRepositoryInterface;
 import com.messenger.Messenger.service.impl.AdminServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,21 +46,8 @@ public class AdminServiceImpl implements AdminServiceInterface {
 
     /*Удалить админа*/
     @Override
-    public String deleteAdmin(Admin admin) {
-        List<Admin> adminsToRemove = new ArrayList<>();
-
-        for (Admin admin1 : adminRepository.getAllAdmins()) {
-            if (Objects.equals(admin1.getNameUser(), admin.getNameUser())) {
-                adminsToRemove.add(admin1);
-            }
-        }
-
-        if (!adminsToRemove.isEmpty()) {
-            adminRepository.getAllAdmins().removeAll(adminsToRemove);
-            return "Админ " + admin.getNameUser() + " удален.";
-        } else {
-            return "Админ " + admin.getNameUser() + " не найден.";
-        }
+    public void deleteAdmin(Admin admin) {
+       adminRepository.delete(admin);
     }
 
     @Override
@@ -75,8 +63,4 @@ public class AdminServiceImpl implements AdminServiceInterface {
         }
         return null;
     }
-
-
-
-
 }

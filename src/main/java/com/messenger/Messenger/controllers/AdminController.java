@@ -31,9 +31,9 @@ public class AdminController {
 
     @DeleteMapping(value = "/deleteAdmin/{adminName}")
     @Operation(tags = "Удалить админа", description = "Удалить администратора по имени админа")
-    public @ResponseBody String deleteAdmin(@PathVariable ("adminName") String adminName){
+    public void deleteAdmin(@PathVariable ("adminName") String adminName){
         Admin admin = adminServiceInterface.findAdmin(adminName);
-        return adminServiceInterface.deleteAdmin(admin)+"\nСписок админов: "+adminServiceInterface.getAdminList();
+        adminServiceInterface.deleteAdmin(admin);
     }
 
     @PostMapping("/addAdmin/{adminName}")

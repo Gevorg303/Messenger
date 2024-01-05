@@ -1,5 +1,6 @@
 package com.messenger.Messenger.repository;
 
+import com.messenger.Messenger.domain.Admin;
 import com.messenger.Messenger.domain.User;
 import com.messenger.Messenger.repository.impl.UserRepositoryInterface;
 import jakarta.persistence.EntityManager;
@@ -15,19 +16,19 @@ public class UserRepositoryImpl implements UserRepositoryInterface {
 
     @Override
     public User save(User user) {
-
-        if (user.getId() == null) {
-            entityManager.persist(user);
-        } else {
-            user = entityManager.merge(user);
-        }
+        entityManager.persist(user);
         return user;
     }
 
     @Override
     public void delete(User user) {
-        entityManager.remove(user);
+        if (!(user instanceof Admin)) {
+            entityManager.remove(user);
+        } else {
+            System.out.println("Вы не можете удалить администратора.");
+        }
     }
+
 
     @Override
     public User findUser(String username) {

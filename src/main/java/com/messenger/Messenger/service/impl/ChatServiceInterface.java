@@ -3,6 +3,7 @@ package com.messenger.Messenger.service.impl;
 import com.messenger.Messenger.domain.Chat;
 import com.messenger.Messenger.domain.Message;
 import com.messenger.Messenger.domain.User;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 
@@ -17,6 +18,9 @@ public interface ChatServiceInterface {
 
     /*Удалить пользователя из чата*/
     //void removeUserFromChat(User user, Chat chat);
+
+    @Transactional
+    void addUserToChat(User user, Chat chat);
 
     //void removeUserFromChat(User user, Chat chat);
     void writeMessage(User user, Chat chat, Message message);

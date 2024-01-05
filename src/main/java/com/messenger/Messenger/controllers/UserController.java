@@ -26,9 +26,9 @@ public class UserController {
 
     @DeleteMapping(value = "/deleteUser/{userName}")
     @Operation(tags = "Удалить пользователя", description = "Удалить пользователя по имени")
-    public @ResponseBody String deleteUser(@PathVariable ("userName") String userName){
+    public void deleteUser(@PathVariable ("userName") String userName){
         User user=userService.findUser(userName);
-        return userService.deleteUser(user)+"\nСписок пользователей: "+userService.getUserList();
+        userService.deleteUser(user);
     }
 
     @PostMapping(value = "/addUser/{userName}")

@@ -29,32 +29,8 @@ public class UserServiceImpl implements UserServiceInterface {
 
     /*Удалить пользователя из мессенджера*/
     @Override
-    public String deleteUser(User user) {
-        List<User> usersToRemove = new ArrayList<>();
-
-        // Поиск пользователей для удаления
-        for (User user1 : userRepository.getAllUsers()) {
-            if (user1.getNameUser().equals(user.getNameUser())) {
-                usersToRemove.add(user);
-            }
-        }
-
-        // Удаление пользователей из списка
-        userRepository.getAllUsers().removeAll(usersToRemove);
-
-        // Удаление пользователя из чатов
-        for (Chat chat :chatRepository.findAll()) {
-
-            if (chat.getUserList().contains(user)) {
-               // chat.removeUser(user);
-            }
-        }
-
-        if (!usersToRemove.isEmpty()) {
-            return "Пользователь "+user.getNameUser()+" удален.";
-        } else {
-            return "Пользователь "+user.getNameUser()+" не найден.";
-        }
+    public void deleteUser(User user) {
+        userRepository.delete(user);
     }
 
     /*Получить чаты пользователя*/

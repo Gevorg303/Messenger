@@ -11,7 +11,7 @@ public interface AdminServiceInterface {
     void deleteAnyChat(ChatServiceImpl chatService, Admin admin, Chat chat);
     void changeChatMaxUsers(Admin admin, Chat chat, int maxUsers);
     Admin crateAdmin(String nameAdmin);
-    String deleteAdmin(Admin admin);
+    void deleteAdmin(Admin admin);
     List<Admin> getAdminList();
     Admin findAdmin(String adminName);
 }

@@ -48,11 +48,10 @@ public class ChatRepositoryImpl implements ChatRepositoryInterface {
         }
         @Override
         public Chat save(Chat chat) {
-                if (chat.getId() == null) {
-                        entityManager.persist(chat);
-                } else {
-                        entityManager.merge(chat);
-                }
+                entityManager.persist(chat);
                 return chat;
         }
+
+
+
 }

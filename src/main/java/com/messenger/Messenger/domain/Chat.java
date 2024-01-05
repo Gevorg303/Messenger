@@ -2,11 +2,13 @@ package com.messenger.Messenger.domain;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Setter
 @Entity
 @Table(name = "chat")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -46,27 +48,7 @@ public abstract class Chat {
 
     public Chat() {
     }
-     /*Добавить пользователя в чат*/
-//    public void addUser(User user) {
-//        if (!getUserList().contains(user)) {
-//            if (getUserList().size() < getMaxUser()) {
-//                getUserList().add(user);
-//                user.addChat(this);
-//                System.out.println(user.getNameUser() + " присоединился к чату " + getChatName());
-//            } else {
-//                System.out.println("Чат " + getChatName() + " полон, нельзя добавить больше пользователей.");
-//            }
-//        }
-//    }
 
-    /*Удалить пользователя из чата*/
-//    public void removeUser(User user) {
-//        if (getUserList().contains(user)) {
-//            getUserList().remove(user);
-//            user.removeChat(this);
-//            System.out.println(user.getNameUser() + " покинул чат '" + getChatName() + "'.");
-//        }
-//    }
 
     /*Проверить чат на приватность*/
     public abstract boolean isPrivate();
@@ -79,34 +61,4 @@ public abstract class Chat {
         else {System.out.println(user.getNameUser()+ " не может написать сообщение, так как он не является участником этого чата");
         }
     }
-
-
-    public void setCreator(User creator) {
-        this.creator = creator;
-    }
-
-    public void setMessagesHistory(List<Message> messagesHistory) {
-        this.messagesHistory = messagesHistory;
-    }
-
-    public void setUserList(List<User> userList) {
-        this.userList = userList;
-    }
-
-    public void setChatName(String chatName) {
-        this.chatName = chatName;
-    }
-
-    public void setMaxUser(int maxUser) {
-        this.maxUser = maxUser;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
 }
