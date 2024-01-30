@@ -47,7 +47,6 @@ public class ChatServiceImpl implements ChatServiceInterface {
         }
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void addUserToChat(User user, Chat chat) {
         if (!chat.getUserList().contains(user)) {
@@ -60,7 +59,6 @@ public class ChatServiceImpl implements ChatServiceInterface {
             }
         }
     }
-    @Transactional(propagation = Propagation.REQUIRED)
     /* Удалить пользователя из чата */
     public void removeUserFromChat(User user, Chat chat) {
         if (chat.getUserList().contains(user)) {
