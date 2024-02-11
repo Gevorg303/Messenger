@@ -17,9 +17,8 @@ public class ChatServiceImpl implements ChatServiceInterface {
     @Autowired
     private ChatRepositoryInterface chatRepository;
 
-
     /*Создать новый чат*/
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Override
     public Chat createChat(User creator, String name, boolean isPrivate,
                            String password, int maxUsers) {
@@ -28,9 +27,10 @@ public class ChatServiceImpl implements ChatServiceInterface {
         addUserToChat(creator, chat); /*Добавить пользователя в чат*/
         creator.addChatToUser(chat); /*Добавить чат в список чатов пользователя*/
         return chat;
+
     }
     /*Удалить чат*/
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Override
     public void deleteChat(User user, Chat chat) {
         if (user.getNameUser().equals(chat.getCreator().getNameUser())) {
@@ -69,7 +69,7 @@ public class ChatServiceImpl implements ChatServiceInterface {
     }
 
     /*Написать сообщение*/
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Override
     public void writeMessage(User user, Chat chat, Message message) {
         if (chat.getUserList().contains(user)) {

@@ -43,7 +43,6 @@ public class User implements UserInterface {
             chat.getUserList().add(this);
         }
     }
-
     @Override
     public String toString() {
         return "Имя пользователя: "+getNameUser();

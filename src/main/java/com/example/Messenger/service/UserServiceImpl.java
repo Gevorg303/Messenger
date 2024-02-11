@@ -23,16 +23,17 @@ public class UserServiceImpl implements UserServiceInterface {
     private ChatRepositoryImpl chatRepository;
     /*Создать нового пользователя*/
     @Override
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public String createUser(String username) {
         User user = new User(username);
         userRepository.save(user);
         return "Пользователь " + user.getNameUser() + " создан.";
+
     }
 
     /*Удалить пользователя из мессенджера*/
     @Override
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.MANDATORY)
     public void deleteUser(User user) {
         userRepository.delete(user);
     }
@@ -44,7 +45,7 @@ public class UserServiceImpl implements UserServiceInterface {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Chat createChat(ChatServiceImpl chatService, User user, String name, boolean isPrivate, String password, int maxUsers) {
         Chat chat = chatService.createChat(user, name, isPrivate, password, maxUsers);
         chatRepository.save(chat);
@@ -52,7 +53,7 @@ public class UserServiceImpl implements UserServiceInterface {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void deleteChat(ChatServiceImpl chatService, User user, Chat chat) {
         chatService.deleteChat(user, chat);
     }
