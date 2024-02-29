@@ -15,5 +15,5 @@ public class MessengerApplication {
 		SpringApplication.run(MessengerApplication.class, args);
 	  }
 }
-
+//http://localhost:8085/swagger-ui/index.html#/
 

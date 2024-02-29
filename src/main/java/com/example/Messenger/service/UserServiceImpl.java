@@ -25,17 +25,24 @@ public class UserServiceImpl implements UserServiceInterface {
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public String createUser(String username) {
-        User user = new User(username);
-        userRepository.save(user);
-        return "Пользователь " + user.getNameUser() + " создан.";
-
+        try {
+            User user = new User(username);
+            userRepository.save(user);
+            return "Пользователь " + user.getNameUser() + " создан.";
+        }catch (Exception e){
+            return "Ошибка при создании пользователя: " + e.getMessage();
+        }
     }
 
     /*Удалить пользователя из мессенджера*/
     @Override
     @Transactional(propagation = Propagation.MANDATORY)
     public void deleteUser(User user) {
-        userRepository.delete(user);
+        try {
+            userRepository.delete(user);
+        } catch (Exception e) {
+            System.out.println("Ошибка при удалении пользователя: " + e.getMessage());
+        }
     }
 
     /*Получить чаты пользователя*/
@@ -47,40 +54,62 @@ public class UserServiceImpl implements UserServiceInterface {
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Chat createChat(ChatServiceImpl chatService, User user, String name, boolean isPrivate, String password, int maxUsers) {
-        Chat chat = chatService.createChat(user, name, isPrivate, password, maxUsers);
-        chatRepository.save(chat);
-        return chat;
+        try {
+            Chat chat = chatService.createChat(user, name, isPrivate, password, maxUsers);
+            chatRepository.save(chat);
+            return chat;
+        } catch (Exception e) {
+            System.out.println("Ошибка при создании чата: " + e.getMessage());
+            return null;
+        }
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void deleteChat(ChatServiceImpl chatService, User user, Chat chat) {
-        chatService.deleteChat(user, chat);
+        try {
+            chatService.deleteChat(user, chat);
+        } catch (Exception e) {
+            System.out.println("Ошибка при удалении чата: " + e.getMessage());
+        }
     }
 
     @Override
     public void changeChatMaxUsers(AdminServiceImpl adminService, Admin admin, Chat chat, int maxUsers) {
-        adminService.changeChatMaxUsers(admin, chat, maxUsers);
+        try {
+            adminService.changeChatMaxUsers(admin, chat, maxUsers);
+        } catch (Exception e) {
+            System.out.println("Ошибка при изменении максимального количества пользователей в чате: " + e.getMessage());
+        }
     }
 
     /*Удаляем чаты пользователя*/
     @Override
     public void deleteUserAndChats(ChatServiceImpl chatService, User user) {
-        deleteUser(user);
-        List<Chat> userChatsCopy = new ArrayList<>(user.getChat());
-        for (Chat chat : userChatsCopy) {
-            chatService.deleteChat(user, chat);
+        try {
+            deleteUser(user);
+            List<Chat> userChatsCopy = new ArrayList<>(user.getChat());
+            for (Chat chat : userChatsCopy) {
+                chatService.deleteChat(user, chat);
+            }
+        } catch (Exception e) {
+            System.out.println("Ошибка при удалении пользователя и его чатов: " + e.getMessage());
         }
     }
 
     @Override
     public User findUser(String userName) {
-        for(User user: userRepository.getAllUsers()){
-            if(Objects.equals(userName, user.getNameUser())){
-                return user;
+        try {
+            for (User user : userRepository.getAllUsers()) {
+                if (Objects.equals(userName, user.getNameUser())) {
+                    return user;
+                }
             }
+            return null;
+        } catch (Exception e) {
+            System.out.println("Ошибка при поиске пользователя: " + e.getMessage());
+            return null;
         }
-        return null;
     }
     @Override
     public List<User> getUserList(){
